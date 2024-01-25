@@ -33,7 +33,7 @@ savings.PerformMonthEndTransactions();
 Console.WriteLine(savings.GetAccountHistory());
 
 
-var creditAccount = new LineOfCreditAccount("Credit Account", 0, 10000);
+var creditAccount = new LineOfCreditAccount("Credit Account", 0, 2000);
 Console.WriteLine(creditAccount);
 creditAccount.MakeWithdrawal(100m, DateTime.Now, "Salary Advance");
 creditAccount.MakeDeposit(50m, DateTime.Now, "Salary Advance deduction repayment");

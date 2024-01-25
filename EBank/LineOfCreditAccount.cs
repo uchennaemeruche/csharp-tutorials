@@ -3,6 +3,7 @@ namespace EBank
 {
 	public class LineOfCreditAccount:BankAccount
 	{
+        protected decimal _OverdranWithdrawalFee = 20;
 		public LineOfCreditAccount(string name, decimal initialBalance, decimal creditLimit) : base(name, initialBalance, -creditLimit)
         {
 
@@ -16,6 +17,9 @@ namespace EBank
                 MakeWithdrawal(interest, DateTime.Now, "charge monthly interest");
             }
         }
+
+        protected override Transaction? CheckWithdrawalLimit(bool isOverdrawn)
+        => isOverdrawn ? new Transaction(-_OverdranWithdrawalFee, DateTime.Now, "Apply overdraft fee") : default;
     }
 }
 

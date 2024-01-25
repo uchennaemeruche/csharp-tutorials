@@ -57,14 +57,26 @@ namespace EBank
                 throw new ArgumentOutOfRangeException(nameof(amount), "Amount can not be less than or eqaul to 0");
             }
 
-			if(this.Balance - amount < _minimumBalance)
-			{
-				throw new InvalidOperationException("Insufficient balance, please try again");
-			}
+			Transaction? overdraftTransaction = CheckWithdrawalLimit(Balance - amount < _minimumBalance);
 
-			var withdrawal = new Transaction(-amount, date, description);
+			Transaction? withdrawal = new(-amount, date, description);
 			_transactions.Add(withdrawal);
+			if (overdraftTransaction != null)
+				_transactions.Add(overdraftTransaction);
+
+			
         }
+
+		protected virtual Transaction? CheckWithdrawalLimit(bool isOverdrawn) {
+			if (isOverdrawn)
+			{
+				throw new InvalidOperationException("Insufficient amount - Withdrawal limit exceeded");
+			}
+			else
+			{
+				return default;
+			}
+		}
 
 		public string GetAccountHistory()
 		{
